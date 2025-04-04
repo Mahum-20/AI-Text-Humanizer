@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Text Humanizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        #outputText {
+            margin-top: 20px;
+            height: 150px;
+            background: #f9f9f9;
+            font-size: 16px;
+            resize: none;
+            border: 1px solid #ccc;
+        }
+    </style>
+    <script>
+        async function humanizeText() {
+            console.log("hello");
+            let inputText = document.getElementById("inputText").value;
+
+            if (!inputText.trim()) {
+                alert("Please enter some text to humanize.");
+                return;
+            }
+
+            let response = await fetch("humanize/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: inputText }),
+            });
+
+            let data = await response.json();
+            document.getElementById("outputText").value = data.humanized_text || "Error processing text!";
+        }
+    </script>
+</head>
+<body>
+    <h1>AI Text Humanizer</h1>
+    <textarea id="inputText" placeholder="Enter AI-generated text here..."></textarea><br>
+    <button onclick="humanizeText()">Humanize Text</button>
+    <h3>Humanized Output:</h3>
+    <textarea id="outputText" readonly></textarea>
+</body>
+</html>
